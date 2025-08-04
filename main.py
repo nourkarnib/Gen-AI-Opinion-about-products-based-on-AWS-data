@@ -1,7 +1,7 @@
 from math  import sqrt
 import re
 d = sqrt(2)
-print(d)
+print(2*d)
  
 # Data clean and preprocessing
 
