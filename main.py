@@ -90,3 +90,12 @@ from datasets import load_dataset
 
 dataset = load_dataset('json', data_files='training_data.jsonl', split='train')
 
+print(dataset[0]) 
+
+split_dataset = dataset.train_test_split(test_size=0.2)
+
+train_dataset = split_dataset['train']
+test_dataset = split_dataset['test']
+
+print("Train dataset size:", len(train_dataset))
+print("Test dataset size:", len(test_dataset))
