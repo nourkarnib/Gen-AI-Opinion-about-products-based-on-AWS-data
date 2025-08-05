@@ -26,7 +26,7 @@ print("After preprocessing:", preprocess_data(example_text))
 
 
 # Input features from the data
-df_input = df.loc[:, ['name', 'categories', 'reviews.rating', 'reviews.text', 'reviews.title']]
+df_input = df.loc[:, ['name', 'categories', 'reviews.rating', 'reviews.text']]
 
 print(df_input.head())
 
@@ -34,7 +34,6 @@ print(df_input.head())
 df_input['name'] = df_input['name'].str.strip()
 df_input['categories'] = df_input['categories'].str.lower().str.strip()
 df_input['reviews.text'] = df_input['reviews.text'].str.lower().str.strip()
-df_input['reviews.title'] = df_input['reviews.title'].str.lower().str.strip()
 df_input['reviews.rating'] = df_input['reviews.rating'].astype(str)
 
 # Remove non-ASCII characters from review_body and review_title
@@ -45,7 +44,7 @@ def remove_non_ascii(text):
 
 
 # Remove rows with NaN values in the specified columns
-df_input = df_input.dropna(subset=['name', 'categories', 'reviews.rating', 'reviews.text', 'reviews.title'])
+df_input = df_input.dropna(subset=['name', 'categories', 'reviews.rating', 'reviews.text'])
 
  # Remove html tags from reviews
 def remove_html_tags(text):
@@ -53,17 +52,21 @@ def remove_html_tags(text):
     return re.sub(clean, '', text)
 
 df_input['reviews.text'] = df_input['reviews.text'].apply(remove_html_tags)
-df_input['reviews.title'] = df_input['reviews.title'].apply(remove_html_tags)
 
 # Remove extra whitespace from reviews
 def remove_extra_whitespace(text):
     return re.sub(r'\s+', ' ', text).strip()
 
 df_input['reviews.text'] = df_input['reviews.text'].apply(remove_extra_whitespace)
-df_input['reviews.title'] = df_input['reviews.title'].apply(remove_extra_whitespace)
+
 # Remove leading and trailing whitespace from product names and categories
 df_input['name'] = df_input['name'].str.strip()
 df_input['categories'] = df_input['categories'].str.strip() 
 
 # review columns
-print(df_input[['reviews.text', 'reviews.title', 'reviews.rating']].head(3))
+print(df_input[['reviews.text', 'reviews.rating']].head(3))
+
+# Create a new column for the training data
+df_input['prompt'] = 'Product: ' + df_input['name'] + '\nCategory: ' + df_input['categories'] + '\nRating: ' + df_input['reviews.rating'] 
+
+print('\n',df_input['prompt'][1])
