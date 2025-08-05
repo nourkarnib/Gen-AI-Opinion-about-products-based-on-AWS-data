@@ -70,3 +70,23 @@ print(df_input[['reviews.text', 'reviews.rating']].head(3))
 df_input['prompt'] = 'Product: ' + df_input['name'] + '\nCategory: ' + df_input['categories'] + '\nRating: ' + df_input['reviews.rating'] 
 
 print('\n',df_input['prompt'][1])
+
+
+##################################
+
+# split data into training and target and combinate them in one column
+df_input['training_data'] = df_input['prompt'] + ' ' + df_input['reviews.text']
+
+
+# Load the training data into JSON to be used later in Hugging Face
+import json
+
+with open("training_data.jsonl", "w") as f:
+    for _, row in df_input.iterrows():
+        json.dump({"text": row['training_data']}, f)
+        f.write("\n")
+
+from datasets import load_dataset
+
+dataset = load_dataset('json', data_files='training_data.jsonl', split='train')
+
