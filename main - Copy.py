@@ -1,8 +1,10 @@
 from math  import sqrt
+import jupytext
+jupytext.write(jupytext.reads('main - Copy.py', 'ipynb'), 'notebook.ipynb')
 import re
 d = sqrt(2)
 print(2*d)
- 
+
 # Data clean and preprocessing
 
 ## Get the data
@@ -92,8 +94,6 @@ dataset = load_dataset('json', data_files='training_data.jsonl', split='train')
 
 print(dataset[0]) 
 
-# Split data into training and test sets
-
 split_dataset = dataset.train_test_split(test_size=0.2)
 
 train_dataset = split_dataset['train']
@@ -101,9 +101,3 @@ test_dataset = split_dataset['test']
 
 print("Train dataset size:", len(train_dataset))
 print("Test dataset size:", len(test_dataset))
-
-#########################
-
-# tokenize the dataset
-
-from transformers import GPT2Tokenizer
