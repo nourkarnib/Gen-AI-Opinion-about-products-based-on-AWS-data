@@ -1,0 +1,11 @@
+# Ignore local model folders/files
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.h5
+*.pkl
+*.ckpt
+fine-tuned-gpt2/
+models/
